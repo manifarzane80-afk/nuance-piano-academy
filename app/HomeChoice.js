@@ -22,7 +22,7 @@ export default function HomeChoice() {
       {/* HERO */}
       <section className="min-h-screen flex items-center relative px-6 py-16">
 
-        {/* glow */}
+        {/* Glow */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="
             absolute top-0 right-0
@@ -30,7 +30,7 @@ export default function HomeChoice() {
             bg-[rgba(198,161,91,.12)]
             blur-3xl
             rounded-full
-          "/>
+          " />
 
           <div className="
             absolute bottom-0 left-0
@@ -38,7 +38,7 @@ export default function HomeChoice() {
             bg-[rgba(198,161,91,.08)]
             blur-3xl
             rounded-full
-          "/>
+          " />
         </div>
 
 
@@ -48,21 +48,25 @@ export default function HomeChoice() {
           w-full
           mx-auto
           grid
-          lg:grid-cols-2
-          gap-10
+          md:grid-cols-2
+          gap-16
           items-center
         ">
 
 
           {/* TEXT */}
-
-          <div className="text-center lg:text-right order-2 lg:order-1">
+          <div className="
+            text-center
+            md:text-right
+            order-2
+            md:order-1
+          ">
 
 
             <div className="
               flex
               justify-center
-              lg:justify-start
+              md:justify-start
               items-center
               gap-3
               text-goldbright
@@ -89,7 +93,7 @@ export default function HomeChoice() {
             ">
 
               آکادمی پیانو
-              <br/>
+              <br />
 
               <span className="text-goldbright">
                 نوانس
@@ -106,7 +110,7 @@ export default function HomeChoice() {
               leading-10
               max-w-xl
               mx-auto
-              lg:mx-0
+              md:mx-0
               mb-6
             ">
 
@@ -123,7 +127,7 @@ export default function HomeChoice() {
             ">
 
               مانی فرزانه
-              <br/>
+              <br />
 
               <span className="text-sm text-inkdim">
                 مدرس پیانو و بنیان‌گذار آکادمی نوانس
@@ -138,7 +142,7 @@ export default function HomeChoice() {
               flex-col
               sm:flex-row
               justify-center
-              lg:justify-start
+              md:justify-start
               gap-5
             ">
 
@@ -191,12 +195,10 @@ export default function HomeChoice() {
 
 
 
-
           {/* VISUAL */}
-
           <div className="
             order-1
-            lg:order-2
+            md:order-2
             flex
             justify-center
           ">
@@ -205,7 +207,7 @@ export default function HomeChoice() {
             <div className="
               relative
               w-full
-              max-w-lg
+              max-w-xl
               aspect-square
               rounded-[40px]
               border
@@ -223,7 +225,7 @@ export default function HomeChoice() {
                 rounded-full
                 border
                 border-[rgba(198,161,91,.25)]
-              "/>
+              " />
 
 
               <div className="
@@ -232,13 +234,12 @@ export default function HomeChoice() {
                 rounded-full
                 border
                 border-[rgba(198,161,91,.15)]
-              "/>
-
+              " />
 
 
               <div className="
-                w-56
-                h-56
+                w-64
+                h-64
                 rounded-full
                 border
                 border-gold
@@ -249,13 +250,12 @@ export default function HomeChoice() {
               ">
 
                 <Piano
-                  size={90}
+                  size={100}
                   className="text-goldbright"
                   strokeWidth={1}
                 />
 
               </div>
-
 
 
               <div className="
@@ -289,7 +289,6 @@ export default function HomeChoice() {
               </div>
 
 
-
             </div>
 
 
@@ -298,13 +297,7 @@ export default function HomeChoice() {
 
         </div>
 
-      </section>
-
-
-
-
-
-      {/* FEATURES */}
+      </section>      {/* FEATURES */}
 
       <section className="px-6 py-24">
 
@@ -317,33 +310,33 @@ export default function HomeChoice() {
           gap-6
         ">
 
-
           <Card
-            icon={<GraduationCap/>}
+            icon={<GraduationCap />}
             title="آموزش اصولی"
             text="برنامه آموزشی متناسب با سطح و هدف هر هنرجو"
           />
 
 
           <Card
-            icon={<Music2/>}
+            icon={<Music2 />}
             title="تکنیک و احساس"
             text="ترکیب مهارت نوازندگی با بیان موسیقایی"
           />
 
 
           <Card
-            icon={<Trophy/>}
+            icon={<Trophy />}
             title="مسیر پیشرفت"
             text="همراهی قدم به قدم تا اجرای بهتر"
           />
-
 
         </div>
 
       </section>
 
 
+
+      {/* FOOTER */}
 
       <footer className="
         border-t
@@ -366,7 +359,7 @@ export default function HomeChoice() {
 
 
 
-function Card({icon,title,text}){
+function Card({ icon, title, text }) {
 
   return (
 
@@ -382,17 +375,29 @@ function Card({icon,title,text}){
         justify-center
         mb-4
       ">
+
         {icon}
+
       </div>
 
 
+
       <h3 className="font-bold mb-3">
+
         {title}
+
       </h3>
 
 
-      <p className="text-sm text-inkdim leading-7">
+
+      <p className="
+        text-sm
+        text-inkdim
+        leading-7
+      ">
+
         {text}
+
       </p>
 
 
