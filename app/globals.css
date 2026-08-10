@@ -1,6 +1,4 @@
-cd ~/Desktop/nuance-piano-academy
-cd ~/Desktop/nuance-piano-academy
-@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -15,6 +13,21 @@ cd ~/Desktop/nuance-piano-academy
   --ink-dim: #c9c0aa;
   --gold: #c6a15b;
   --gold-bright: #e7c883;
+  --sage: #7c9683;
+  --clay: #b96a52;
+}
+
+.light {
+  --bg: #f7f3e9;
+  --panel: #ffffff;
+  --panel-2: #fbf7ee;
+  --line: #e3d9c2;
+  --ink: #241f16;
+  --ink-dim: #6b6250;
+  --gold: #a9803f;
+  --gold-bright: #8a6a30;
+  --sage: #4f7358;
+  --clay: #9c4f39;
 }
 
 html,
@@ -41,21 +54,101 @@ body.lang-en {
   color: #1a1408;
 }
 
+.keybed {
+  display: flex;
+  gap: 3px;
+  height: 10px;
+}
+
+.keybed .k {
+  flex: 1;
+  background: var(--line);
+  border-radius: 0 0 3px 3px;
+  transition: background 0.35s;
+}
+
+.keybed .k.done {
+  background: var(--gold);
+}
+
+.keybed .k.now {
+  background: var(--gold-bright);
+  box-shadow: 0 0 10px rgba(231, 200, 131, 0.45);
+}
+
+.npa-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.npa-scroll::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 10px;
+}
+
+.fade-in {
+  animation: npaFade 0.4s ease both;
+}
+
+@keyframes npaFade {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .npa-card {
   background: linear-gradient(180deg, var(--panel-2), var(--panel));
   border: 1px solid var(--line);
   border-radius: 18px;
 }
 
+.npa-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.npa-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(198, 161, 91, 0.15);
+}
+
 .npa-btn-gold {
   background: linear-gradient(180deg, var(--gold-bright), var(--gold));
   color: #221a0c;
   font-weight: 700;
+  border: none;
   border-radius: 14px;
   padding: 13px 22px;
+  font-size: 14.5px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  transition: transform 0.15s;
+  box-shadow: 0 8px 20px -8px rgba(198, 161, 91, 0.6);
+}
+
+.npa-btn-gold:hover {
+  transform: translateY(-1px);
+}
+
+.npa-btn-gold:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .npa-btn-ghost {
@@ -64,26 +157,86 @@ body.lang-en {
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 13px 20px;
+  font-size: 14.5px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.npa-btn-ghost:hover {
+  border-color: var(--gold);
+  color: var(--ink);
+}
+
+.npa-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid var(--line);
+  color: var(--ink-dim);
+}
+
+.npa-chip.gold {
+  background: rgba(198, 161, 91, 0.12);
+  border-color: rgba(198, 161, 91, 0.4);
+  color: var(--gold-bright);
+}
+
+.npa-chip.sage {
+  background: rgba(124, 150, 131, 0.12);
+  border-color: rgba(124, 150, 131, 0.4);
+  color: var(--sage);
+}
+
+.npa-chip.clay {
+  background: rgba(185, 106, 82, 0.12);
+  border-color: rgba(185, 106, 82, 0.4);
+  color: var(--clay);
+}
+
+.npa-tab {
+  flex: 1;
+  text-align: center;
+  padding: 11px 6px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-dim);
+  border: 1px solid transparent;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.npa-tab.active {
+  background: var(--panel-2);
+  border-color: var(--line);
+  color: var(--gold-bright);
 }
 
 .npa-hero {
   background:
-    radial-gradient(circle at top, rgba(198,161,91,.18), transparent 40%),
+    radial-gradient(circle at top, rgba(198, 161, 91, 0.18), transparent 40%),
     linear-gradient(180deg, #080706, #0f0d0b);
 }
 
 .npa-glow {
   box-shadow:
-    0 0 80px rgba(198,161,91,.18),
-    inset 0 0 40px rgba(198,161,91,.05);
+    0 0 80px rgba(198, 161, 91, 0.18),
+    inset 0 0 40px rgba(198, 161, 91, 0.05);
 }
 
 .npa-title {
   background: linear-gradient(90deg, #f4eede, #e7c883);
   -webkit-background-clip: text;
+  background-clip: text;
   color: transparent;
 }
 
@@ -92,9 +245,11 @@ body.lang-en {
 }
 
 @keyframes npaFloat {
-  0%,100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-8px);
   }
