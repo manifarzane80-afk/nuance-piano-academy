@@ -1,11 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
 import { useSession, signOut } from "next-auth/react";
-
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import {
   Music2,
   Sun,
@@ -14,269 +13,202 @@ import {
   LogOut,
   Home,
 } from "lucide-react";
-
 import { useLang } from "@/lib/i18n";
 
-
-export default function Navbar(){
-
-  const { t, toggle } = useLang();
-
+export default function Navbar() {
   const { theme, setTheme } = useTheme();
-
+  const { toggle, t } = useLang();
   const { data: session } = useSession();
-
   const pathname = usePathname();
 
-  const [mounted,setMounted] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     setMounted(true);
-  },[]);
-
-
+  }, []);
 
   const nav = [
-
     {
-      href:"/",
-      label:t.home,
-      icon:<Home size={14}/>,
-      show:true,
+      href: "/",
+      label: t.home || "خانه",
+      icon: Home,
+      show: true,
     },
-
-
     {
-      href:"/register",
-      label:t.navRegister,
-      show:true,
+      href: "/register",
+      label: t.navRegister || "ثبت‌نام",
+      show: true,
     },
-
-
     {
-      href:"/login",
-      label:t.navLogin,
-      show:!session,
+      href: "/login",
+      label: t.navLogin || "ورود",
+      show: !session,
     },
-
-
     {
-      href:"/student",
-      label:t.navStudent,
-      show:
-        session?.user?.role==="student",
+      href: "/student",
+      label: t.navStudent || "پنل هنرجو",
+      show: session?.user?.role === "student",
     },
-
-
     {
-      href:"/teacher",
-      label:t.navTeacher,
-      show:
-        session?.user?.role==="teacher",
+      href: "/teacher",
+      label: t.navTeacher || "پنل استاد",
+      show: session?.user?.role === "teacher",
     },
-
   ];
 
-
-
   return (
-
     <header>
 
-
+      {/* Top Brand */}
       <div
-        className="
-        flex items-center justify-between
-        gap-3 p-4
-        border-b border-line
-        "
+        className="flex items-center justify-between p-4 border-b border-line"
         style={{
           background:
-          "linear-gradient(160deg,var(--panel-2),var(--panel))"
+            "linear-gradient(135deg,var(--panel-2),var(--panel))",
         }}
       >
 
-
         <Link
           href="/"
-          className="flex items-center gap-2"
+          className="flex items-center gap-3 min-w-0"
         >
 
           <div
-            className="
-            w-10 h-10 rounded-[10px]
-            flex items-center justify-center
-            border border-gold
-            "
+            className="w-11 h-11 rounded-xl flex items-center justify-center border"
             style={{
-              background:
-              "rgba(198,161,91,.1)"
+              borderColor:"var(--gold)",
+              background:"rgba(198,161,91,.12)"
             }}
           >
-
             <Music2
-              size={19}
+              size={21}
               style={{
-                color:
-                "var(--gold-bright)"
+                color:"var(--gold-bright)"
               }}
             />
-
           </div>
 
 
-          <div>
+          <div className="min-w-0">
 
             <div
-              className="
-              font-bold text-[13px]
-              "
+              className="font-bold text-sm whitespace-nowrap"
             >
-              {t.brand}
+              {t.brand || "Nuance Piano Academy"}
             </div>
 
 
             <div
-              className="
-              text-[10.5px]
-              text-inkdim
-              "
+              className="text-[11px] text-inkdim whitespace-nowrap"
             >
-              {t.brandBy}
+              {t.brandBy || "by Mani Farzaneh"}
             </div>
 
-
           </div>
-
 
         </Link>
 
 
 
-        <div
-          className="
-          flex items-center gap-1.5
-          "
-        >
+        <div className="flex items-center gap-1.5">
 
 
           <button
+            type="button"
             onClick={toggle}
             className="npa-btn-ghost !p-2"
-            type="button"
           >
-
             <Languages size={16}/>
-
           </button>
 
 
 
-          {
-            mounted &&
+          {mounted && (
             <button
-              onClick={()=>{
-
-                setTheme(
-                  theme==="dark"
-                  ?"light"
-                  :"dark"
-                )
-
-              }}
-              className="npa-btn-ghost !p-2"
               type="button"
+              onClick={() =>
+                setTheme(
+                  theme === "dark"
+                  ? "light"
+                  : "dark"
+                )
+              }
+              className="npa-btn-ghost !p-2"
             >
-
               {
-                theme==="dark"
+                theme === "dark"
                 ?
                 <Sun size={16}/>
                 :
                 <Moon size={16}/>
               }
-
-
             </button>
-          }
+          )}
 
 
 
-          {
-            session &&
+          {session && (
             <button
-
-              onClick={()=>
+              type="button"
+              className="npa-btn-ghost !p-2"
+              onClick={() =>
                 signOut({
                   callbackUrl:"/login"
                 })
               }
-
-              className="npa-btn-ghost !p-2"
-              type="button"
             >
-
               <LogOut size={16}/>
-
             </button>
-          }
+          )}
 
 
         </div>
-
 
       </div>
 
 
 
+      {/* Navigation */}
       <nav
         className="
-        flex gap-2
-        overflow-x-auto
-        px-4 py-2
+        flex gap-2 overflow-x-auto
+        px-4 py-3
         npa-scroll
         "
       >
 
         {
           nav
-          .filter(x=>x.show)
-          .map(item=>(
+          .filter(item=>item.show)
+          .map(item=>{
 
+            const Icon=item.icon;
 
-            <Link
+            return (
 
-              key={item.href}
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`
+                npa-tab
+                whitespace-nowrap
+                flex items-center gap-1.5
+                ${pathname===item.href ? "active":""}
+                `}
+              >
 
-              href={item.href}
+                {
+                  Icon &&
+                  <Icon size={14}/>
+                }
 
-              className={`
-              npa-tab
-              whitespace-nowrap
-              flex items-center gap-1
+                {item.label}
 
-              ${
-                pathname===item.href
-                ?
-                "active"
-                :
-                ""
-              }
+              </Link>
 
-              `}
+            );
 
-            >
-
-              {item.icon}
-
-              {item.label}
-
-
-            </Link>
-
-
-          ))
+          })
         }
 
 
@@ -284,7 +216,5 @@ export default function Navbar(){
 
 
     </header>
-
   );
-
 }

@@ -1,16 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, ArrowLeft, Send, CheckCircle2, Check } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowLeft,
+  Send,
+  CheckCircle2,
+  Check,
+} from "lucide-react";
 import { useLang } from "@/lib/i18n";
 
 function KeyProgress({ step, total }) {
   return (
-    <div className="flex gap-1 justify-center mb-5">
+    <div className="flex justify-center gap-1.5 mb-4">
       {Array.from({ length: total }).map((_, i) => (
         <div
           key={i}
-          className={`k ${i < step ? "done" : ""} ${i === step ? "now" : ""}`}
+          className={`k ${i < step ? "done" : ""} ${
+            i === step ? "now" : ""
+          }`}
         />
       ))}
     </div>
@@ -70,19 +78,19 @@ export default function RegisterPage() {
   ];
 
   const styles = [
-    lang === "fa" ? "کلاسیک" : "Classical",
-    lang === "fa" ? "پاپ" : "Pop",
-    lang === "fa" ? "جاز" : "Jazz",
-    lang === "fa" ? "فیلم" : "Film Music",
-    lang === "fa" ? "سنتی ایرانی" : "Iranian Traditional",
+    t.classical,
+    t.pop,
+    t.jazz,
+    t.filmMusic,
+    t.iranianTraditional,
   ];
 
   const timeOptions = [
-    lang === "fa" ? "صبح" : "Morning",
-    lang === "fa" ? "ظهر" : "Noon",
-    lang === "fa" ? "عصر" : "Evening",
-    lang === "fa" ? "شب" : "Night",
-    lang === "fa" ? "آخر هفته" : "Weekend",
+    t.morning,
+    t.noon,
+    t.evening,
+    t.night,
+    t.weekend,
   ];
 
   const canNext = () => {
@@ -101,7 +109,11 @@ export default function RegisterPage() {
     }
 
     if (step === 2) {
-      return form.goal && form.style && form.times.length;
+      return (
+        form.goal &&
+        form.style &&
+        form.times.length > 0
+      );
     }
 
     return true;
@@ -123,17 +135,22 @@ export default function RegisterPage() {
       const data = await res.json();
 
       if (!res.ok) {
-        throw new Error(data.error || t.submitError);
+        throw new Error(
+          data.error || t.submitError
+        );
       }
 
       setDone(data);
-
     } catch (e) {
-      setError(e.message);
+      setError(
+        e.message || t.genericError
+      );
     } finally {
       setSubmitting(false);
     }
-  };  const resetForm = () => {
+  };
+
+  const resetForm = () => {
     setDone(null);
     setStep(0);
     setError("");
@@ -154,11 +171,9 @@ export default function RegisterPage() {
     });
   };
 
-
   if (done) {
     return (
       <div className="npa-card p-6 text-center">
-
         <div
           className="w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center border"
           style={{
@@ -174,19 +189,13 @@ export default function RegisterPage() {
           />
         </div>
 
-
         <h2 className="text-2xl font-semibold mb-3">
           {t.success}
         </h2>
 
-
         <p className="text-inkdim">
-          {lang === "fa"
-            ? "حساب هنرجو ایجاد شد. از این پس می‌توانید با اطلاعات خود وارد شوید."
-            : "Your student account has been created. You can now log in with your information."
-          }
+          {t.successSub}
         </p>
-
 
         <button
           className="npa-btn-ghost mt-6"
@@ -194,630 +203,458 @@ export default function RegisterPage() {
         >
           {t.newRequest}
         </button>
-
-
       </div>
     );
   }
 
-
-
   return (
-    <div>
-
+    <div className="npa-card p-6">
       <div className="text-center mb-6">
-
         <KeyProgress
           step={step}
           total={steps.length}
         />
 
-
         <div className="text-[12px] text-inkdim mb-2">
-          {t.step} {step + 1} {t.of} {steps.length}
+          {t.step} {step + 1} {t.of}{" "}
+          {steps.length}
         </div>
-
 
         <h1 className="text-2xl font-semibold">
           {steps[step]}
         </h1>
-
-
       </div>
 
-
-
+      {/* STEP 1 */}
       {step === 0 && (
-
         <div className="fade-in flex flex-col gap-3.5">
-
-
           <Field label={t.fullName}>
             <input
               className="npa-input"
               value={form.fullName}
-              onChange={(e)=>
-                set("fullName", e.target.value)
+              onChange={(e) =>
+                set(
+                  "fullName",
+                  e.target.value
+                )
               }
             />
           </Field>
 
-
-
           <Field label={t.phone}>
-
             <input
               className="npa-input"
               placeholder="09xxxxxxxxx"
               value={form.phone}
-              onChange={(e)=>
-                set("phone", e.target.value)
+              onChange={(e) =>
+                set(
+                  "phone",
+                  e.target.value
+                )
               }
             />
-
           </Field>
 
-
-
           <Field label={t.email}>
-
             <input
               className="npa-input"
               type="email"
               placeholder="example@email.com"
               value={form.email}
-              onChange={(e)=>
-                set("email", e.target.value)
+              onChange={(e) =>
+                set(
+                  "email",
+                  e.target.value
+                )
               }
             />
-
           </Field>
 
-
-
           <Field label={t.password}>
-
             <input
               className="npa-input"
               type="password"
-              placeholder={
-                lang === "fa"
-                ? "حداقل ۶ کاراکتر"
-                : "Minimum 6 characters"
-              }
+              placeholder={t.passwordHint}
               value={form.password}
-              onChange={(e)=>
-                set("password", e.target.value)
+              onChange={(e) =>
+                set(
+                  "password",
+                  e.target.value
+                )
               }
             />
-
           </Field>
 
-
-
           <div className="text-[11px] text-inkdim -mt-1">
-
-            {
-              lang === "fa"
-              ?
-              "حداقل یکی از شماره تلفن یا ایمیل باید وارد شود."
-              :
-              "At least one phone number or email is required."
-            }
-
+            {t.phoneOrEmailRequired}
           </div>
 
-
-
           <div className="grid grid-cols-2 gap-3">
-
-
             <Field label={t.age}>
-
               <input
                 className="npa-input"
                 type="number"
                 value={form.age}
-                onChange={(e)=>
-                  set("age", e.target.value)
+                onChange={(e) =>
+                  set(
+                    "age",
+                    e.target.value
+                  )
                 }
               />
-
             </Field>
 
-
-
             <Field label={t.city}>
-
               <input
                 className="npa-input"
                 value={form.city}
-                onChange={(e)=>
-                  set("city", e.target.value)
+                onChange={(e) =>
+                  set(
+                    "city",
+                    e.target.value
+                  )
                 }
               />
-
             </Field>
-
-
           </div>
-
-
         </div>
+      )}
 
-      )}      {step === 1 && (
-
+      {/* STEP 2 */}
+      {step === 1 && (
         <div className="fade-in flex flex-col gap-4">
-
           <div>
-
             <label className="text-[12.5px] text-inkdim mb-1.5 block">
               {t.playedBefore}
             </label>
 
-
             <div className="flex gap-2.5">
-
-              {[t.yes, t.no].map((option)=>(
-
-                <PillButton
-
-                  key={option}
-
-                  active={form.played === option}
-
-                  onClick={()=>
-                    set("played", option)
-                  }
-
-                >
-
-                  {option}
-
-                </PillButton>
-
-              ))}
-
+              {[t.yes, t.no].map(
+                (option) => (
+                  <PillButton
+                    key={option}
+                    active={
+                      form.played ===
+                      option
+                    }
+                    onClick={() =>
+                      set(
+                        "played",
+                        option
+                      )
+                    }
+                  >
+                    {option}
+                  </PillButton>
+                )
+              )}
             </div>
-
           </div>
 
-
-
           {form.played === t.yes && (
-
             <Field label={t.years}>
-
               <input
-
                 className="npa-input"
-
                 type="number"
-
                 value={form.years}
-
-                onChange={(e)=>
-                  set("years", e.target.value)
+                onChange={(e) =>
+                  set(
+                    "years",
+                    e.target.value
+                  )
                 }
-
               />
-
             </Field>
-
           )}
 
-
-
           <div>
-
             <label className="text-[12.5px] text-inkdim mb-1.5 block">
               {t.level}
             </label>
 
-
             <div className="flex gap-2.5">
-
-              {levels.map((level)=>(
-
+              {levels.map((level) => (
                 <PillButton
-
                   key={level}
-
-                  active={form.level === level}
-
-                  onClick={()=>
-                    set("level", level)
+                  active={
+                    form.level === level
                   }
-
+                  onClick={() =>
+                    set(
+                      "level",
+                      level
+                    )
+                  }
                 >
-
                   {level}
-
                 </PillButton>
-
               ))}
-
             </div>
-
           </div>
-
-
         </div>
-
       )}
 
-
-
+      {/* STEP 3 */}
       {step === 2 && (
-
         <div className="fade-in flex flex-col gap-4">
-
-
           <Field label={t.goal}>
-
             <textarea
-
               className="npa-input"
-
               rows={3}
-
               value={form.goal}
-
-              onChange={(e)=>
-                set("goal", e.target.value)
+              onChange={(e) =>
+                set(
+                  "goal",
+                  e.target.value
+                )
               }
-
             />
-
           </Field>
 
-
-
           <div>
-
             <label className="text-[12.5px] text-inkdim mb-1.5 block">
               {t.style}
             </label>
 
-
             <div className="flex flex-wrap gap-2">
-
-              {styles.map((style)=>(
-
+              {styles.map((style) => (
                 <Chip
-
                   key={style}
-
-                  active={form.style === style}
-
-                  onClick={()=>
-                    set("style", style)
+                  active={
+                    form.style === style
                   }
-
+                  onClick={() =>
+                    set(
+                      "style",
+                      style
+                    )
+                  }
                 >
-
                   {style}
-
                 </Chip>
-
               ))}
-
             </div>
-
           </div>
 
-
-
           <div>
-
             <label className="text-[12.5px] text-inkdim mb-1.5 block">
               {t.times}
             </label>
 
-
             <div className="flex flex-wrap gap-2">
+              {timeOptions.map(
+                (time) => (
+                  <Chip
+                    key={time}
+                    active={form.times.includes(
+                      time
+                    )}
+                    onClick={() =>
+                      toggleTime(
+                        time
+                      )
+                    }
+                  >
+                    {form.times.includes(
+                      time
+                    ) && (
+                      <Check size={12} />
+                    )}
 
-              {timeOptions.map((time)=>(
-
-                <Chip
-
-                  key={time}
-
-                  active={form.times.includes(time)}
-
-                  onClick={()=>
-                    toggleTime(time)
-                  }
-
-                >
-
-                  {form.times.includes(time) &&
-                    <Check size={12}/>
-                  }
-
-                  {time}
-
-                </Chip>
-
-              ))}
-
+                    {time}
+                  </Chip>
+                )
+              )}
             </div>
-
           </div>
-
-
         </div>
-
       )}
 
-
-
+      {/* STEP 4 */}
       {step === 3 && (
-
         <div className="fade-in flex flex-col">
-
           {[
-            [t.fullName, form.fullName],
-            [t.phone, form.phone || "—"],
-            [t.email, form.email || "—"],
-            [t.password, "••••••••"],
+            [
+              t.fullName,
+              form.fullName,
+            ],
+            [
+              t.phone,
+              form.phone || "—",
+            ],
+            [
+              t.email,
+              form.email || "—",
+            ],
+            [
+              t.password,
+              "••••••••",
+            ],
             [t.age, form.age],
             [t.city, form.city],
-            [t.playedBefore, form.played],
-            [t.level, form.level],
-            [t.goal, form.goal],
-            [t.style, form.style],
-            [t.times, form.times.join("، ")],
-          ].map(([key,value])=>(
+            [
+              t.playedBefore,
+              form.played,
+            ],
+            [
+              t.level,
+              form.level,
+            ],
+            [
+              t.goal,
+              form.goal,
+            ],
+            [
+              t.style,
+              form.style,
+            ],
+            [
+              t.times,
+              form.times.join(
+                lang === "fa"
+                  ? "، "
+                  : ", "
+              ),
+            ],
+          ].map(
+            ([key, value]) => (
+              <div
+                key={key}
+                className="flex justify-between gap-4 py-2.5 border-b border-dashed border-line text-[13.5px]"
+              >
+                <span className="text-inkdim">
+                  {key}
+                </span>
 
-            <div
-              key={key}
-              className="flex justify-between gap-4 py-2.5 border-b border-dashed border-line text-[13.5px]"
-            >
-
-              <span className="text-inkdim">
-                {key}
-              </span>
-
-
-              <span className="font-semibold text-right">
-                {value}
-              </span>
-
-
-            </div>
-
-          ))}
-
+                <span className="font-semibold text-right">
+                  {value}
+                </span>
+              </div>
+            )
+          )}
         </div>
-
       )}
 
-
-
       {error && (
-
         <div
           className="text-[13px] mt-3"
           style={{
-            color:"var(--clay)"
+            color: "var(--clay)",
           }}
         >
-
           {error}
-
         </div>
-
       )}
 
-
-
-
       <div className="flex gap-2.5 mt-5">
-
-
         {step > 0 && (
-
           <button
-
             type="button"
-
             className="npa-btn-ghost"
-
-            onClick={()=>
-              setStep((s)=>s-1)
+            onClick={() =>
+              setStep((s) => s - 1)
             }
-
           >
-
-            <ArrowRight size={16}/>
-
+            <ArrowRight size={16} />
             {t.prev}
-
           </button>
-
         )}
 
-
-
-
-        {step < steps.length-1 ? (
-
+        {step <
+        steps.length - 1 ? (
           <button
-
             type="button"
-
             className="npa-btn-gold flex-1 justify-center"
-
             disabled={!canNext()}
-
-            onClick={()=>
-              setStep((s)=>s+1)
+            onClick={() =>
+              setStep((s) => s + 1)
             }
-
           >
-
             {t.next}
-
-            <ArrowLeft size={16}/>
-
+            <ArrowLeft size={16} />
           </button>
-
-
         ) : (
-
           <button
-
             type="button"
-
             className="npa-btn-gold flex-1 justify-center"
-
             disabled={submitting}
-
             onClick={submit}
-
           >
-
-            {
-              submitting
-              ?
+            {submitting ? (
               t.loading
-              :
+            ) : (
               <>
                 {t.submit}
-                <Send size={15}/>
+                <Send size={15} />
               </>
-            }
-
+            )}
           </button>
-
         )}
-
-
       </div>
-
-
     </div>
-
   );
-
 }
 
-
-
-
-function Field({label,children}){
-
+function Field({ label, children }) {
   return (
-
     <div>
-
       <label className="text-[12.5px] text-inkdim mb-1.5 block">
         {label}
       </label>
 
       {children}
-
     </div>
-
   );
-
 }
 
-
-
-
-function PillButton({active,onClick,children}){
-
+function PillButton({
+  active,
+  onClick,
+  children,
+}) {
   return (
-
     <button
-
       type="button"
-
       onClick={onClick}
-
       className="npa-btn-ghost flex-1 justify-center"
-
       style={{
-
-        borderColor:
-        active
-        ?
-        "var(--gold)"
-        :
-        "var(--line)",
-
-
-        color:
-        active
-        ?
-        "var(--gold-bright)"
-        :
-        "var(--ink-dim)",
-
+        borderColor: active
+          ? "var(--gold)"
+          : "var(--line)",
+        color: active
+          ? "var(--gold-bright)"
+          : "var(--ink-dim)",
       }}
-
     >
-
       {children}
-
     </button>
-
   );
-
 }
 
-
-
-
-function Chip({active,onClick,children}){
-
+function Chip({
+  active,
+  onClick,
+  children,
+}) {
   return (
-
     <button
-
       type="button"
-
       onClick={onClick}
-
       className="npa-chip"
-
       style={{
-
-        cursor:"pointer",
-
-        borderColor:
-        active
-        ?
-        "var(--gold)"
-        :
-        "var(--line)",
-
-
-        color:
-        active
-        ?
-        "var(--gold-bright)"
-        :
-        "var(--ink-dim)",
-
-
-        background:
-        active
-        ?
-        "rgba(198,161,91,.12)"
-        :
-        "transparent",
-
+        cursor: "pointer",
+        borderColor: active
+          ? "var(--gold)"
+          : "var(--line)",
+        color: active
+          ? "var(--gold-bright)"
+          : "var(--ink-dim)",
+        background: active
+          ? "rgba(198,161,91,.12)"
+          : "transparent",
       }}
-
     >
-
       {children}
-
     </button>
-
   );
-
 }
