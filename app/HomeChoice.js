@@ -8,51 +8,56 @@ export default function HomeChoice() {
   const { t } = useLang();
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-6 bg-[#08090b]">
+    <main className="min-h-screen flex items-center justify-center px-6 npa-hero">
 
-      <div className="max-w-3xl text-center">
+      <div className="max-w-4xl text-center">
 
-        <div className="w-24 h-24 rounded-full mx-auto mb-8 flex items-center justify-center border border-[#c6a15b] bg-[#c6a15b]/10">
-          <Piano size={40} className="text-[#c6a15b]" />
+        <div
+          className="npa-glow w-28 h-28 rounded-full mx-auto mb-10 flex items-center justify-center border border-gold bg-[rgba(198,161,91,.1)] npa-float"
+        >
+          <Piano
+            size={48}
+            className="text-goldbright"
+          />
         </div>
 
-        <div className="flex justify-center items-center gap-2 text-[#c6a15b] mb-5">
-          <Sparkles size={18}/>
-          <span className="text-sm">
+        <div className="flex justify-center items-center gap-2 text-goldbright mb-6">
+          <Sparkles size={18} />
+          <span className="tracking-wide text-sm">
             Premium Piano Education
           </span>
         </div>
 
-        <h1 className="text-5xl font-bold text-white mb-6">
-          Nuance Piano Academy
+        <h1 className="npa-title text-5xl md:text-7xl font-bold mb-8">
+          {t.brand || "آکادمی پیانو نوانس"}
         </h1>
 
-        <p className="text-gray-300 text-lg leading-8 mb-10">
+        <p className="text-inkdim text-lg md:text-xl leading-10 max-w-2xl mx-auto mb-12">
           آموزش پیانو با تمرکز بر تکنیک، احساس و ظرافت موسیقی
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <div className="flex flex-col sm:flex-row justify-center gap-5">
 
           <Link
             href="/register"
-            className="npa-btn-gold justify-center px-10 py-4"
+            className="npa-btn-gold justify-center text-base px-10 py-4"
           >
             {t.navRegister || "ثبت‌نام هنرجو"}
           </Link>
 
           <Link
             href="/login"
-            className="npa-btn-ghost justify-center px-10 py-4 flex items-center gap-2"
+            className="npa-btn-ghost justify-center text-base px-10 py-4"
           >
-            <LogIn size={18}/>
-            ورود به حساب
+            <LogIn size={18} />
+            {t.navLogin || "ورود"}
           </Link>
 
         </div>
 
-        <p className="text-gray-500 mt-10 text-sm">
-          by Mani Farzaneh
-        </p>
+        <div className="mt-12 text-inkdim text-sm">
+          {t.brandBy || "by Mani Farzaneh"}
+        </div>
 
       </div>
 
