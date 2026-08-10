@@ -1,13 +1,18 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   darkMode: "class",
+
   content: [
-    "./app/**/*.{js,jsx}",
-    "./components/**/*.{js,jsx}",
-    "./lib/**/*.{js,jsx}",
+    "./app/**/*.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}",
+    "./lib/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,jsx,ts,tsx}",
   ],
+
   theme: {
     extend: {
+
       colors: {
         bg: "var(--bg)",
         panel: "var(--panel)",
@@ -20,14 +25,18 @@ module.exports = {
         sage: "var(--sage)",
         clay: "var(--clay)",
       },
+
       fontFamily: {
         fa: ["Vazirmatn", "sans-serif"],
         en: ["Inter", "sans-serif"],
       },
+
       borderRadius: {
         npa: "18px",
       },
+
     },
   },
+
   plugins: [],
 };
