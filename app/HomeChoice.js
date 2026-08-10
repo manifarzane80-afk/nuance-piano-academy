@@ -16,24 +16,24 @@ export default function HomeChoice() {
   const { t } = useLang();
 
   return (
-    <main className="min-h-screen flex items-center justify-center px-6 py-20">
+    <main className="min-h-screen flex items-center justify-center px-6 py-16">
 
-      <div className="max-w-5xl text-center">
+      <div className="w-full max-w-6xl text-center">
 
         <div
           className="
-          npa-glow w-32 h-32 rounded-full mx-auto mb-8
+          npa-glow w-28 h-28 rounded-full mx-auto mb-6
           flex items-center justify-center
           border border-gold
           bg-[rgba(198,161,91,.12)]
           npa-float
           "
         >
-          <Piano size={55} className="text-goldbright" />
+          <Piano size={48} className="text-goldbright" />
         </div>
 
 
-        <div className="flex justify-center items-center gap-2 text-goldbright mb-5">
+        <div className="flex justify-center items-center gap-2 text-goldbright mb-4">
           <Sparkles size={18} />
           <span className="tracking-widest text-sm">
             NUANCE PIANO ACADEMY
@@ -41,38 +41,40 @@ export default function HomeChoice() {
         </div>
 
 
-        <h1 className="npa-title text-5xl md:text-7xl font-bold mb-6">
+        <h1 className="npa-title text-5xl md:text-6xl font-bold mb-5">
           {t.brand || "آکادمی پیانو نوانس"}
         </h1>
 
 
-        <p className="
-          text-inkdim
-          text-lg md:text-xl
-          leading-10
-          max-w-3xl
-          mx-auto
-          mb-5
-        ">
-          آموزش تخصصی پیانو با تمرکز بر تکنیک،
-          احساس و ساختن مسیر هنری هر نوازنده
+        <p className="text-inkdim text-lg leading-9 max-w-3xl mx-auto mb-4">
+          آموزش تخصصی پیانو با تمرکز بر تکنیک، احساس و ساختن مسیر هنری هر نوازنده
         </p>
 
 
-        <p className="text-goldbright mb-12">
+        <p className="text-goldbright mb-8">
           مانی فرزانه
           <br />
           مدرس پیانو و بنیان‌گذار آکادمی نوانس
         </p>
 
 
-        <div className="grid md:grid-cols-3 gap-5 max-w-4xl mx-auto mb-12">
+
+        {/* سه کارت کنار هم */}
+        <div className="
+          grid
+          grid-cols-1
+          md:grid-cols-3
+          gap-5
+          max-w-5xl
+          mx-auto
+          mb-10
+        ">
 
 
-          <div className="npa-card p-6">
+          <div className="npa-card p-5">
             <GraduationCap
-              className="mx-auto mb-3 text-goldbright"
               size={30}
+              className="mx-auto mb-3 text-goldbright"
             />
             <h3 className="font-bold mb-2">
               آموزش اصولی
@@ -83,10 +85,11 @@ export default function HomeChoice() {
           </div>
 
 
-          <div className="npa-card p-6">
+
+          <div className="npa-card p-5">
             <Music2
-              className="mx-auto mb-3 text-goldbright"
               size={30}
+              className="mx-auto mb-3 text-goldbright"
             />
             <h3 className="font-bold mb-2">
               تکنیک و احساس
@@ -97,10 +100,11 @@ export default function HomeChoice() {
           </div>
 
 
-          <div className="npa-card p-6">
+
+          <div className="npa-card p-5">
             <Trophy
-              className="mx-auto mb-3 text-goldbright"
               size={30}
+              className="mx-auto mb-3 text-goldbright"
             />
             <h3 className="font-bold mb-2">
               مسیر پیشرفت
@@ -114,15 +118,18 @@ export default function HomeChoice() {
         </div>
 
 
-        <div className="flex flex-col sm:flex-row justify-center gap-5">
+
+        <div className="
+          flex
+          flex-col
+          md:flex-row
+          justify-center
+          gap-5
+        ">
 
           <Link
             href="/register"
-            className="
-            npa-btn-gold
-            justify-center
-            px-10 py-4
-            "
+            className="npa-btn-gold justify-center px-10 py-4"
           >
             ثبت‌نام هنرجو
           </Link>
@@ -132,18 +139,23 @@ export default function HomeChoice() {
             href="/login"
             className="
             npa-btn-ghost
-            flex items-center justify-center gap-2
-            px-10 py-4
+            flex
+            items-center
+            justify-center
+            gap-2
+            px-10
+            py-4
             "
           >
-            <LogIn size={18} />
+            <LogIn size={18}/>
             ورود
           </Link>
+
 
         </div>
 
 
-        <div className="mt-10 text-inkdim text-sm">
+        <div className="mt-8 text-inkdim text-sm">
           Nuance Piano Academy © Mani Farzaneh
         </div>
 
