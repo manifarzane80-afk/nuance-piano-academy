@@ -1,0 +1,170 @@
+```svg
+<svg width="900" height="300" viewBox="0 0 900 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gold" x1="120" y1="60" x2="760" y2="240" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F2D58A"/>
+      <stop offset="0.45" stop-color="#C6A15B"/>
+      <stop offset="1" stop-color="#8F6A2F"/>
+    </linearGradient>
+
+    <linearGradient id="goldSoft" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#FFE7A3"/>
+      <stop offset="1" stop-color="#B98B43"/>
+    </linearGradient>
+
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- ICON -->
+  <g transform="translate(55 55)">
+
+    <!-- outer elegant circle -->
+    <circle
+      cx="95"
+      cy="95"
+      r="91"
+      stroke="url(#gold)"
+      stroke-width="2"
+      opacity="0.65"
+    />
+
+    <circle
+      cx="95"
+      cy="95"
+      r="78"
+      stroke="#C6A15B"
+      stroke-width="1"
+      opacity="0.18"
+    />
+
+    <!-- piano keys -->
+    <rect
+      x="42"
+      y="118"
+      width="106"
+      height="42"
+      rx="5"
+      stroke="url(#gold)"
+      stroke-width="2.5"
+    />
+
+    <!-- white keys -->
+    <path
+      d="M55 119V159 M70 119V159 M85 119V159 M100 119V159 M115 119V159 M130 119V159"
+      stroke="#C6A15B"
+      stroke-width="1.5"
+      opacity="0.7"
+    />
+
+    <!-- black keys -->
+    <path
+      d="M65 119V139 M80 119V139 M110 119V139 M125 119V139 M140 119V139"
+      stroke="url(#goldSoft)"
+      stroke-width="6"
+      stroke-linecap="round"
+    />
+
+    <!-- NUANCE melodic line -->
+    <path
+      d="M38 108
+         C58 105 65 80 82 79
+         C101 77 105 106 123 104
+         C143 102 146 68 166 62"
+      stroke="url(#gold)"
+      stroke-width="5"
+      stroke-linecap="round"
+      fill="none"
+      filter="url(#glow)"
+    />
+
+    <!-- musical accent -->
+    <circle
+      cx="166"
+      cy="62"
+      r="5"
+      fill="#F2D58A"
+    />
+
+    <path
+      d="M166 62V91"
+      stroke="#C6A15B"
+      stroke-width="3"
+      stroke-linecap="round"
+    />
+
+    <path
+      d="M166 91
+         C156 84 149 91 151 99
+         C153 106 163 107 168 101"
+      stroke="#C6A15B"
+      stroke-width="3"
+      fill="none"
+      stroke-linecap="round"
+    />
+  </g>
+
+  <!-- WORDMARK -->
+  <g transform="translate(285 72)">
+
+    <!-- Persian name -->
+    <text
+      x="0"
+      y="88"
+      fill="url(#gold)"
+      font-size="76"
+      font-weight="700"
+      font-family="Vazirmatn, Tahoma, Arial, sans-serif"
+      direction="rtl"
+      unicode-bidi="bidi-override"
+    >نوانس</text>
+
+    <!-- English -->
+    <text
+      x="5"
+      y="124"
+      fill="#E8E0D0"
+      font-size="22"
+      font-weight="500"
+      font-family="Arial, sans-serif"
+      letter-spacing="8"
+    >NUANCE</text>
+
+    <!-- separator -->
+    <line
+      x1="7"
+      y1="145"
+      x2="300"
+      y2="145"
+      stroke="#C6A15B"
+      stroke-width="1"
+      opacity="0.35"
+    />
+
+    <!-- academy -->
+    <text
+      x="8"
+      y="171"
+      fill="#9F998E"
+      font-size="13"
+      font-family="Arial, sans-serif"
+      letter-spacing="4"
+    >PIANO ACADEMY</text>
+
+    <!-- meaning -->
+    <text
+      x="8"
+      y="204"
+      fill="#C6A15B"
+      font-size="14"
+      font-family="Vazirmatn, Tahoma, Arial, sans-serif"
+    >ظرافتِ بیان، جانِ موسیقی</text>
+
+  </g>
+</svg>
+```

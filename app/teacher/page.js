@@ -2,20 +2,22 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+
 import {
   Users,
   CalendarDays,
   XCircle,
   ClipboardList,
   Search,
-  ChevronDown,
   ChevronLeft,
   CheckCircle2,
   Clock3,
   TrendingUp,
   GraduationCap,
   RefreshCw,
+  Settings,
 } from "lucide-react";
+
 import { useLang } from "@/lib/i18n";
 
 function Avatar({ name, size = 44 }) {
@@ -38,33 +40,25 @@ function Avatar({ name, size = 44 }) {
 
 function SectionTitle({ icon: Icon, title, sub }) {
   return (
-    <div className="flex items-center justify-between mb-3">
-      <div className="flex items-center gap-2.5">
-        <div
-          className="w-[36px] h-[36px] rounded-[11px] flex items-center justify-center border border-gold/40"
-          style={{
-            background: "rgba(198,161,91,.12)",
-          }}
-        >
-          <Icon
-            size={18}
-            style={{
-              color: "var(--gold-bright)",
-            }}
-          />
-        </div>
+    <div className="flex items-center gap-3 mb-4 mt-8">
+      <div
+        className="w-[36px] h-[36px] rounded-[11px] flex items-center justify-center border"
+        style={{
+          background: "rgba(198,161,91,.12)",
+          borderColor: "rgba(198,161,91,.4)",
+        }}
+      >
+        <Icon size={18} style={{ color: "var(--gold-bright)" }} />
+      </div>
 
-        <div>
-          <h2 className="font-bold text-[15px]">
-            {title}
-          </h2>
+      <div>
+        <h2 className="font-bold text-[15px]">{title}</h2>
 
-          {sub && (
-            <div className="text-[10.5px] text-inkdim mt-0.5">
-              {sub}
-            </div>
-          )}
-        </div>
+        {sub && (
+          <div className="text-[10.5px] text-inkdim mt-0.5">
+            {sub}
+          </div>
+        )}
       </div>
     </div>
   );
@@ -72,7 +66,7 @@ function SectionTitle({ icon: Icon, title, sub }) {
 
 function EmptyNote({ text = "موردی ثبت نشده است." }) {
   return (
-    <div className="npa-card p-5 text-center text-[12px] text-inkdim">
+    <div className="npa-card p-5 text-center text-sm text-inkdim">
       {text}
     </div>
   );
@@ -93,9 +87,9 @@ export default function TeacherDashboard() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  const loadDashboard = async (isRefresh = false) => {
+  const loadDashboard = async (refresh = false) => {
     try {
-      if (isRefresh) {
+      if (refresh) {
         setRefreshing(true);
       } else {
         setLoading(true);
@@ -134,10 +128,7 @@ export default function TeacherDashboard() {
           : []
       );
     } catch (error) {
-      console.error(
-        "Teacher dashboard error:",
-        error
-      );
+      console.error("Dashboard error:", error);
     } finally {
       setLoading(false);
       setRefreshing(false);
@@ -159,17 +150,9 @@ export default function TeacherDashboard() {
     const search = query.trim().toLowerCase();
 
     return students.filter((student) => {
-      const name = String(
-        student.fullName || ""
-      ).toLowerCase();
-
-      const phone = String(
-        student.phone || ""
-      ).toLowerCase();
-
-      const email = String(
-        student.email || ""
-      ).toLowerCase();
+      const name = String(student.fullName || "").toLowerCase();
+      const phone = String(student.phone || "").toLowerCase();
+      const email = String(student.email || "").toLowerCase();
 
       const matchesSearch =
         !search ||
@@ -226,8 +209,8 @@ export default function TeacherDashboard() {
   ];
 
   const setStatus = async (id, status) => {
-    setSessions((previous) =>
-      previous.map((session) =>
+    setSessions((prev) =>
+      prev.map((session) =>
         session.id === id
           ? { ...session, status }
           : session
@@ -235,64 +218,57 @@ export default function TeacherDashboard() {
     );
 
     try {
-      const response = await fetch(
-        "/api/sessions",
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            id,
-            status,
-          }),
-        }
-      );
+      const response = await fetch("/api/sessions", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+          status,
+        }),
+      });
 
       if (!response.ok) {
-        throw new Error(
-          "Session update failed"
-        );
+        throw new Error("Session update failed");
       }
     } catch (error) {
       console.error(error);
-      await loadDashboard(true);
+      loadDashboard(true);
     }
   };
 
   if (loading) {
     return (
-      <div className="py-16 text-center text-sm text-inkdim">
+      <div className="p-10 text-center text-sm text-inkdim">
         {t.loading || "در حال بارگذاری..."}
       </div>
     );
   }
 
   return (
-    <div className="fade-in flex flex-col gap-6">
+    <div className="space-y-6">
 
       {/* Welcome */}
       <div
         className="npa-card p-5"
         style={{
           background:
-            "linear-gradient(145deg, rgba(198,161,91,.16), rgba(198,161,91,.04))",
+            "linear-gradient(145deg,rgba(198,161,91,.16),rgba(198,161,91,.04))",
         }}
       >
         <div className="flex items-center gap-3">
 
           <div
-            className="w-12 h-12 rounded-full flex items-center justify-center border border-gold"
+            className="w-12 h-12 rounded-full flex items-center justify-center border"
             style={{
-              background:
-                "rgba(198,161,91,.12)",
+              background: "rgba(198,161,91,.12)",
             }}
           >
             <GraduationCap
               size={23}
               style={{
-                color:
-                  "var(--gold-bright)",
+                color: "var(--gold-bright)",
               }}
             />
           </div>
@@ -302,7 +278,7 @@ export default function TeacherDashboard() {
               Nuance Piano Academy
             </div>
 
-            <h1 className="text-lg font-bold mt-0.5">
+            <h1 className="text-lg font-bold mt-1">
               خوش آمدید، مانی 👋
             </h1>
 
@@ -312,48 +288,47 @@ export default function TeacherDashboard() {
           </div>
 
           <button
-            type="button"
-            onClick={() =>
-              loadDashboard(true)
-            }
+            onClick={() => loadDashboard(true)}
             className="npa-btn-ghost !p-2"
-            title="بروزرسانی"
+            type="button"
           >
             <RefreshCw
               size={16}
               className={
-                refreshing
-                  ? "animate-spin"
-                  : ""
+                refreshing ? "animate-spin" : ""
               }
             />
           </button>
-
         </div>
+
+        <Link
+          href="/teacher/settings"
+          className="npa-btn-gold mt-5 inline-flex items-center gap-2 px-5 py-3"
+        >
+          <Settings size={17} />
+          مدیریت ظاهر و محتوای سایت
+        </Link>
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-2 gap-2.5">
-
+      <div className="grid grid-cols-2 gap-3">
         {stats.map((stat) => (
           <div
             key={stat.label}
             className="npa-card p-4"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex justify-between items-center">
 
               <div
                 className="w-9 h-9 rounded-[10px] flex items-center justify-center"
                 style={{
-                  background:
-                    "rgba(198,161,91,.11)",
+                  background: "rgba(198,161,91,.11)",
                 }}
               >
                 <stat.icon
                   size={17}
                   style={{
-                    color:
-                      "var(--gold-bright)",
+                    color: "var(--gold-bright)",
                   }}
                 />
               </div>
@@ -362,7 +337,6 @@ export default function TeacherDashboard() {
                 size={14}
                 className="text-inkdim"
               />
-
             </div>
 
             <div className="text-2xl font-bold mt-3">
@@ -374,10 +348,9 @@ export default function TeacherDashboard() {
             </div>
           </div>
         ))}
-
       </div>
 
-      {/* Session overview */}
+      {/* Session Status */}
       <div>
         <SectionTitle
           icon={CalendarDays}
@@ -397,7 +370,7 @@ export default function TeacherDashboard() {
               {plannedSessions.length}
             </div>
 
-            <div className="text-[10.5px] text-inkdim">
+            <div className="text-[10px] text-inkdim">
               برنامه‌ریزی‌شده
             </div>
           </div>
@@ -406,16 +379,13 @@ export default function TeacherDashboard() {
             <CheckCircle2
               size={17}
               className="mx-auto"
-              style={{
-                color: "var(--sage)",
-              }}
             />
 
             <div className="font-bold text-lg mt-1">
               {heldSessions.length}
             </div>
 
-            <div className="text-[10.5px] text-inkdim">
+            <div className="text-[10px] text-inkdim">
               برگزارشده
             </div>
           </div>
@@ -424,16 +394,13 @@ export default function TeacherDashboard() {
             <XCircle
               size={17}
               className="mx-auto"
-              style={{
-                color: "var(--clay)",
-              }}
             />
 
             <div className="font-bold text-lg mt-1">
               {cancelledSessions.length}
             </div>
 
-            <div className="text-[10.5px] text-inkdim">
+            <div className="text-[10px] text-inkdim">
               لغوشده
             </div>
           </div>
@@ -441,79 +408,52 @@ export default function TeacherDashboard() {
         </div>
       </div>
 
-      {/* Sessions */}
+      {/* Classes */}
       <div>
         <SectionTitle
           icon={CalendarDays}
-          title={
-            t.calendarTitle ||
-            "جلسات"
-          }
+          title="تقویم کلاس‌ها"
         />
 
         <div className="flex flex-col gap-2">
 
           {sessions.map((session) => {
-
-            const student =
-              students.find(
-                (item) =>
-                  String(item.id) ===
-                  String(session.studentId)
-              );
+            const student = students.find(
+              (item) =>
+                String(item.id) ===
+                String(session.studentId)
+            );
 
             return (
               <div
                 key={session.id}
                 className="npa-card p-3"
               >
-
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-3">
 
                   <Avatar
-                    name={
-                      student?.fullName
-                    }
+                    name={student?.fullName}
                     size={38}
                   />
 
-                  <div className="flex-1 min-w-0">
-
-                    <div className="font-semibold text-[13px] truncate">
+                  <div className="flex-1">
+                    <div className="font-bold text-sm">
                       {student?.fullName ||
                         "هنرجوی نامشخص"}
                     </div>
 
-                    <div className="text-[11px] text-inkdim mt-1">
-                      {session.date} ·{" "}
-                      {session.time}
+                    <div className="text-[11px] text-inkdim">
+                      {session.date} · {session.time}
                     </div>
-
                   </div>
-
-                  {session.status !==
-                    "برنامه‌ریزی شده" && (
-                    <span
-                      className={`npa-chip ${
-                        session.status ===
-                        "برگزار شده"
-                          ? "sage"
-                          : "clay"
-                      }`}
-                    >
-                      {session.status}
-                    </span>
-                  )}
-
                 </div>
 
-                {session.status ===
-                  "برنامه‌ریزی شده" && (
+                {session.status === "برنامه‌ریزی شده" && (
                   <div className="flex gap-2 mt-3">
 
                     <button
                       type="button"
-                      className="npa-btn-ghost flex-1 justify-center text-[11px]"
+                      className="npa-btn-ghost flex-1 justify-center text-xs"
                       onClick={() =>
                         setStatus(
                           session.id,
@@ -521,15 +461,13 @@ export default function TeacherDashboard() {
                         )
                       }
                     >
-                      <CheckCircle2
-                        size={14}
-                      />
+                      <CheckCircle2 size={14} />
                       برگزار شد
                     </button>
 
                     <button
                       type="button"
-                      className="npa-btn-ghost flex-1 justify-center text-[11px]"
+                      className="npa-btn-ghost flex-1 justify-center text-xs"
                       onClick={() =>
                         setStatus(
                           session.id,
@@ -538,12 +476,11 @@ export default function TeacherDashboard() {
                       }
                     >
                       <XCircle size={14} />
-                      لغو جلسه
+                      لغو
                     </button>
 
                   </div>
                 )}
-
               </div>
             );
           })}
@@ -551,7 +488,6 @@ export default function TeacherDashboard() {
           {sessions.length === 0 && (
             <EmptyNote text="هنوز جلسه‌ای ثبت نشده است." />
           )}
-
         </div>
       </div>
 
@@ -560,17 +496,13 @@ export default function TeacherDashboard() {
 
         <SectionTitle
           icon={Users}
-          title={
-            t.studentsTitle ||
-            "هنرجوها"
-          }
+          title="لیست هنرجویان"
           sub={`${filteredStudents.length} هنرجو`}
         />
 
         <div className="flex gap-2 mb-3">
 
           <div className="relative flex-1">
-
             <Search
               size={15}
               className="absolute right-3 top-[13px] text-inkdim"
@@ -578,118 +510,77 @@ export default function TeacherDashboard() {
 
             <input
               className="npa-input pr-9"
-              placeholder={
-                t.searchPlaceholder ||
-                "جستجوی هنرجو..."
-              }
+              placeholder="جستجوی هنرجو..."
               value={query}
-              onChange={(event) =>
-                setQuery(
-                  event.target.value
-                )
+              onChange={(e) =>
+                setQuery(e.target.value)
               }
             />
-
           </div>
 
-          <div className="relative">
-
-            <select
-              className="npa-input appearance-none pl-7 min-w-[105px]"
-              value={levelFilter}
-              onChange={(event) =>
-                setLevelFilter(
-                  event.target.value
-                )
-              }
-            >
-              {levels.map((level) => (
-                <option
-                  key={level}
-                  value={level}
-                >
-                  {level}
-                </option>
-              ))}
-            </select>
-
-            <ChevronDown
-              size={14}
-              className="absolute left-2.5 top-[14px] text-inkdim pointer-events-none"
-            />
-
-          </div>
+          <select
+            className="npa-input"
+            value={levelFilter}
+            onChange={(e) =>
+              setLevelFilter(e.target.value)
+            }
+          >
+            {levels.map((level) => (
+              <option key={level} value={level}>
+                {level}
+              </option>
+            ))}
+          </select>
 
         </div>
 
         <div className="flex flex-col gap-2">
 
-          {filteredStudents.map(
-            (student) => (
-              <Link
-                key={student.id}
-                href={`/teacher/students/${student.id}`}
-                className="npa-card p-3 flex items-center gap-2.5"
-              >
+          {filteredStudents.map((student) => (
+            <Link
+              key={student.id}
+              href={`/teacher/students/${student.id}`}
+              className="npa-card p-3 flex items-center gap-3"
+            >
 
-                <Avatar
-                  name={
-                    student.fullName
-                  }
-                />
+              <Avatar
+                name={student.fullName}
+              />
 
-                <div className="flex-1 min-w-0">
+              <div className="flex-1">
 
-                  <div className="text-[13.5px] font-bold truncate">
-                    {student.fullName ||
-                      "—"}
-                  </div>
-
-                  <div className="text-[11px] text-inkdim mt-1">
-                    {student.city ||
-                      "—"}{" "}
-                    ·{" "}
-                    {student.remainingSessions ||
-                      0}{" "}
-                    جلسه باقی‌مانده
-                  </div>
-
+                <div className="font-bold text-sm">
+                  {student.fullName}
                 </div>
 
-                <div className="flex items-center gap-1.5">
-
-                  <span className="npa-chip gold">
-                    {student.level ||
-                      "—"}
-                  </span>
-
-                  <ChevronLeft
-                    size={15}
-                    className="text-inkdim"
-                  />
-
+                <div className="text-[11px] text-inkdim">
+                  {student.city || "—"}
+                  {" · "}
+                  {student.remainingSessions || 0}
+                  {" جلسه باقی‌مانده"}
                 </div>
 
-              </Link>
-            )
-          )}
+              </div>
 
-          {filteredStudents.length ===
-            0 && (
+              <span className="npa-chip gold">
+                {student.level || "—"}
+              </span>
+
+              <ChevronLeft size={16} />
+
+            </Link>
+          ))}
+
+          {filteredStudents.length === 0 && (
             <EmptyNote
-              text={
-                query
-                  ? "هنرجویی با این مشخصات پیدا نشد."
-                  : "هنوز هنرجویی ثبت نشده است."
-              }
+              text="هنوز هنرجویی ثبت نشده است."
             />
           )}
 
         </div>
-
       </div>
 
-      {/* Recent practice */}
+      {/* Practice */}
       <div>
 
         <SectionTitle
@@ -706,60 +597,49 @@ export default function TeacherDashboard() {
             .slice(0, 5)
             .map((log) => {
 
-              const student =
-                students.find(
-                  (item) =>
-                    String(item.id) ===
-                    String(
-                      log.studentId
-                    )
-                );
+              const student = students.find(
+                (s) =>
+                  String(s.id) ===
+                  String(log.studentId)
+              );
 
               return (
                 <div
                   key={log.id}
-                  className="npa-card p-3 flex items-start gap-2.5"
+                  className="npa-card p-3 flex gap-3"
                 >
 
                   <Avatar
-                    name={
-                      student?.fullName
-                    }
+                    name={student?.fullName}
                     size={36}
                   />
 
-                  <div className="flex-1 min-w-0">
+                  <div>
 
-                    <div className="font-semibold text-[12.5px]">
-                      {student?.fullName ||
-                        "هنرجو"}
+                    <div className="font-bold text-sm">
+                      {student?.fullName || "هنرجو"}
                     </div>
 
-                    <div className="text-[11px] text-inkdim mt-1">
-                      {log.note ||
-                        "بدون یادداشت"}
+                    <div className="text-[11px] text-inkdim">
+                      {log.note || "بدون یادداشت"}
                     </div>
 
                   </div>
-
-                  <span className="npa-chip gold">
-                    {log.duration ||
-                      "—"}
-                  </span>
 
                 </div>
               );
             })}
 
           {logs.length === 0 && (
-            <EmptyNote text="هنوز تمرینی ثبت نشده است." />
+            <EmptyNote
+              text="هنوز تمرینی ثبت نشده است."
+            />
           )}
 
         </div>
-
       </div>
 
-      <div className="text-[10.5px] text-inkdim text-center pt-1">
+      <div className="text-center text-xs text-inkdim pt-3">
         اطلاعات این داشبورد از Google Sheets دریافت می‌شود.
       </div>
 
